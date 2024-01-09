@@ -9,10 +9,12 @@ const loginData = async (req, res) => {
   // console.log(email);
   try {
     const user = await SignupModel.findOne({ email });
-
     if (!user) {
       return res.status(401).json({ error: "Invalid Email!" });
     }
+    if (!user.verified) {
+      return res.status(401).json({ error: "you are not a verified user!" });
+    }    
     const passwordMatch = await bcrypt.compare(password, user.password);
     if (!passwordMatch) {
       return res.status(401).json({ error: "Invalid Password!" });
