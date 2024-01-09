@@ -26,8 +26,8 @@ app.post('/user', (req, res) => {
     res.status(200).send('Home page..');
 });
 
-app.get('/', isAuth, (req, res) => {
-    res.status(200).send('Home page..');
+app.get('/',(req, res) => {
+    res.status(200).send('hi nahid.');
 });
 
 const uri = process.env.uri;
@@ -43,6 +43,6 @@ async function connect() {
 }
 connect();
 
-app.listen(3000, () => {
+app.listen(process.env.PORT, () => {
     console.log('listening on port 3000');
 });
