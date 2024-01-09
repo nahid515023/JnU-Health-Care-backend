@@ -27,7 +27,7 @@ app.post('/user', (req, res) => {
 });
 
 app.get('/',(req, res) => {
-    res.status(200).send('hi nahid.');
+    res.status(200).sendFile(__dirname + '/index.html');
 });
 
 const uri = process.env.uri;
