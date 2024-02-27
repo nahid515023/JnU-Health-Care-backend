@@ -32,7 +32,7 @@ const forgotPass = async (req, res) => {
 
         console.log(user);
 
-        res.status(200).json({ message: '4 Digit code sent to your email!',email: user.email });
+        res.status(200).json({ message: '4 Digit code sent to your email!', email: user.email });
     } catch (error) {
         console.error('Error occurred:', error);
         res.status(500).json({ message: 'Internal server error' });
@@ -70,7 +70,7 @@ const checkPin = async (req, res) => {
 
         const getPin = await Pin.findOne({ email });
 
-        
+
 
         if (!getPin) {
             return res.status(404).json({ message: 'User not found' });
@@ -80,7 +80,7 @@ const checkPin = async (req, res) => {
         if (getPin.pin === pin) {
             const id = getPin.userId.toString();
             await Pin.findOneAndDelete({ email });
-            return res.status(200).json({ message: 'PIN verified successfully',id});
+            return res.status(200).json({ message: 'PIN verified successfully', id });
         } else {
             return res.status(400).json({ message: 'Invalid PIN' });
         }
@@ -91,5 +91,27 @@ const checkPin = async (req, res) => {
 };
 
 
+const cngPassword = async (req, res) => {
+    try {
+        const { id,newPassword } = req.body;
+        if (!newPassword) {
+            return res
+                .status(400)
+                .json({ message: "New passwords are required" });
+        }
+        const user = await users.findOne({ _id: id });
+        if (!user) {
+            return res.status(404).json({ message: "User not found" });
+        }
+        user.password = newPassword;
+        await user.save();
+        res.status(200).json({ message: "Password changed successfully" });
+    } catch (error) {
+        console.error("Error changing password:", error);
+        res.status(500).json({ message: "Internal server error" });
+    }
+};
 
-module.exports = { forgotPass, checkPin }; 
+
+
+module.exports = { forgotPass, checkPin, cngPassword }; 
