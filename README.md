@@ -1,7 +1,3 @@
-Here's the improved version of your README:
-
----
-
 # JnU Counseling Center Android App
 
 ## Project Overview
